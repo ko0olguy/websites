@@ -5,7 +5,7 @@ import "./App.css"
 import { motion, AnimatePresence } from "framer-motion"
 import { ThemeProvider } from "@/components/theme-provider"
 import { wrap } from "popmotion";
-import img from "./components/img.png"
+import NavBar from "./components/ui/navbar"
 
 
 const jutsuVariants = {
@@ -17,6 +17,9 @@ const jutsuVariants = {
   },
   exit: {
     y: 1000
+  },
+  transition: {
+    type: "tween"
   }
 }
 
@@ -44,28 +47,27 @@ const getRandomCharacters = async (limit = 5) => {
 const CharacterCard = ({ character }) => {
   const { name, images, jutsu } = character;
   const [expandedJutsus, setExpandedJutsus] = useState(false);
-  const [expandedImages, setExpandedImages] = useState(false);
 
   const limitedJutsus = Array.isArray(jutsu) ? jutsu.slice(0, 4) : [];
   const displayJutsus = expandedJutsus ? jutsu : limitedJutsus;
 
   return (
       <motion.div className='justify-center flex-wrap mx-auto min-w-max mt-8 character-card'>
-        <Card className='justify-center flex-wrap min-h-max'>
+        <Card className='justify-center flex-wrap min-h-max text-center'>
           <div className="border p-4 m-4 content-center">
             <CardHeader>
               <CardTitle className='text-lg font-semibold mb-5'>{name}</CardTitle>
             </CardHeader>
             <CardContent className='grid justify-center'>
               {Array.isArray(images) && images.map((image, index) => (
-                <img key={index} src={image} alt={`${name}-image-${index}`} className="w-full h-64 object-cover mb-5" />
+                <img key={index} src={image} alt={`${name}-image-${index}`} className="w-full h-64 object-cover mb-5 rounded-md" />
               ))}
               {Array.isArray(displayJutsus) && jutsu && (
                 <CardDescription>
                   <h4 className="text-sm font-semibold mb-2 mt-2">Jutsus:</h4>
                   <ul className="my-0 py-2 list-none">
                     {displayJutsus.map((juts, index) => (
-                      <motion.li variants={jutsuVariants} initial='initial' animate='animate' exit='exit' key={index}>{juts}</motion.li>
+                      <motion.li variants={jutsuVariants} initial='initial' animate='animate' exit='exit' transition={{ type: "tween" }} key={index}>{juts}</motion.li>
                     ))}
                   </ul>
                   {jutsu.length > 4 ? (
@@ -77,11 +79,6 @@ const CharacterCard = ({ character }) => {
               )}
             </CardContent>
             <CardFooter>
-              {images.length > 1 && (
-                <button onClick={() => setExpandedImages(!expandedImages)}>
-                  {expandedImages ? 'Expand Images' : 'Collapse Images'}
-                </button>
-              )}
             </CardFooter>
           </div>
         </Card>
@@ -181,12 +178,15 @@ const CharacterCard = ({ character }) => {
 
 export default function App() {
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div>
-        <img src={img} className='justify-self-center w-64 mx-auto'></img>
-        <RandomCharacterList />
-      </div>
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+      <body className='min min-h-screen bg-background'>
+        <NavBar/>
+        <div className='bg-background'>
+          <RandomCharacterList />
+        </div>
+      </body>
     </ThemeProvider>
   );
 }
+
 
