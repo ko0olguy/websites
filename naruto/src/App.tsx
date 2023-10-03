@@ -5,7 +5,7 @@ import "./App.css"
 import { motion, AnimatePresence } from "framer-motion"
 import { ThemeProvider } from "@/components/theme-provider"
 import { wrap } from "popmotion";
-import NavBar from "./components/ui/navbar"
+import NavBar from "./components/navbar"
 
 
 const jutsuVariants = {
@@ -44,10 +44,16 @@ const getRandomCharacters = async (limit = 5) => {
   }
 };
 
-const CharacterCard = ({ character }) => {
+type Character = {
+  id: string;
+  name: string;
+  images: string[];
+  jutsu: string[];
+};
+
+const CharacterCard = ({ character }: {character: Character}) => {
   const { name, images, jutsu } = character;
   const [expandedJutsus, setExpandedJutsus] = useState(false);
-
   const limitedJutsus = Array.isArray(jutsu) ? jutsu.slice(0, 4) : [];
   const displayJutsus = expandedJutsus ? jutsu : limitedJutsus;
 
@@ -62,7 +68,7 @@ const CharacterCard = ({ character }) => {
               {Array.isArray(images) && images.map((image, index) => (
                 <img key={index} src={image} alt={`${name}-image-${index}`} className="w-full h-64 object-cover mb-5 rounded-md" />
               ))}
-              {Array.isArray(displayJutsus) && jutsu && (
+              {Array.isArray(displayJutsus) && jutsu ? (
                 <CardDescription>
                   <h4 className="text-sm font-semibold mb-2 mt-2">Jutsus:</h4>
                   <ul className="my-0 py-2 list-none">
@@ -76,7 +82,7 @@ const CharacterCard = ({ character }) => {
                     </button>
                   ): null}
                 </CardDescription>
-              )}
+              ) : <CardDescription>No Known Jutsus</CardDescription>}
             </CardContent>
             <CardFooter>
             </CardFooter>
@@ -88,7 +94,7 @@ const CharacterCard = ({ character }) => {
 
 
   const RandomCharacterList = () => {
-    const [characters, setCharacters] = useState([]);
+    const [characters, setCharacters] = useState<Character[]>([]);
     const [[cardsIndex, direction], setCardsIndex] = useState([0, 0]);
     const paginate = (newDirection: number) => {
       setCardsIndex([cardsIndex + newDirection, newDirection]);
