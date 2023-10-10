@@ -9,7 +9,7 @@ import {
     CardTitle,
 } from "./ui/card";
 import "../index.css";
-import { Dots } from "./dots";
+import { Dots } from "./ui/dots";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
 

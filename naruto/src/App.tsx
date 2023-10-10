@@ -1,6 +1,6 @@
-import NavBar from "./components/navbar"
+import NavBar from "./components/ui/navbar"
 import { RandomCharacterList } from './components/characters'
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/components/ui/theme-provider"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { About } from "./components/About"
 

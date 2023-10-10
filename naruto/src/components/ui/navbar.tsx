@@ -1,6 +1,6 @@
-import dark from "./img-dark.png";
+import dark from "../img-dark.png";
 import { ModeToggle } from "./toggle";
-import { DropDown } from "./ui/dropdown";
+import { DropDown } from "./dropdown";
 
 export default function NavBar() {
   return (

@@ -8,7 +8,7 @@
     DropdownMenuSeparator,
     DropdownMenuGroup
     } from "@/components/ui/dropdown-menu";
-    import { HoverCards } from "../HoverCards";
+    import { HoverCards } from "./HoverCards";
 
     export const DropDown = () => {
 
