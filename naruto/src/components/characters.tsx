@@ -8,7 +8,7 @@ import {
     CardHeader,
     CardTitle,
 } from "./ui/card";
-import "../App.css";
+import "../index.css";
 import { Dots } from "./dots";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
