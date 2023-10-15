@@ -11,7 +11,7 @@ export default function App() {
           <body className='min-h-screen bg-background'>
             <NavBar/>
               <Routes>
-                <Route path="/home" element={<RandomCharacterList/>}/>
+                <Route path="/" element={<RandomCharacterList/>}/>
                 <Route path="/about" element={<About/>}/>
               </Routes>
           </body>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import {
     Card,
@@ -8,10 +8,12 @@ import {
     CardHeader,
     CardTitle,
 } from "./ui/card";
+import { Button } from "./ui/button";
 import "../index.css";
 import { Dots } from "./ui/dots";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
+import { RefreshCcw } from "lucide-react";
 
 const jutsuVariants = {
     initial: {
@@ -23,12 +25,12 @@ const jutsuVariants = {
 };
 
 const baseURL = "https://dattebayo-api.onrender.com/";
-var randomNumber = Math.floor(Math.random() * 285) + 1;
 const api = axios.create({
     baseURL,
 });
 
 const getRandomCharacters = async (limit = 5) => {
+    var randomNumber = Math.floor(Math.random() * 285) + 1;
     try {
         const response = await api.get("/characters", {
         params: {
@@ -115,19 +117,20 @@ export const RandomCharacterList = () => {
     };
     const cardIndex = wrap(0, characters.length, cardsIndex);
 
-useEffect(() => {
-    const fetchRandomCharacters = async () => {
+    const fetchRandomCharacters = useCallback(async () => {
         try {
             const data = await getRandomCharacters();
             setCharacters(data.characters);
             setCardsIndex([0, 0]);
+            console.log(data);
         } catch (error) {
-        console.log("Error fetching random characters:", error);
+            console.log("Error fetching random characters:", error);
         }
-    };
+    }, []);
 
-    fetchRandomCharacters();
-}, []);
+    useEffect(() => {
+        fetchRandomCharacters();
+    },[fetchRandomCharacters]);
 
 if (characters.length === 0 || !characters[cardIndex]) {
     return null;
@@ -187,7 +190,10 @@ const swipePower = (offset: number, velocity: number) => {
                     }}>
                     <CharacterCard character={characters[cardIndex]} />
                     </motion.div>
-                    <Dots length={characters.length} currentIndex={cardIndex} />
+                    <div className="grid">
+                        <Dots length={characters.length} currentIndex={cardIndex} />
+                        <Button variant="ghost"><RefreshCcw className="text-white h-3 w-3" onClick={fetchRandomCharacters}/></Button>
+                    </div>
                 </div>
             </div>
         </AnimatePresence>
